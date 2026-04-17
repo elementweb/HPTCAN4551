@@ -689,8 +689,8 @@ HPTCAN4551_filter_handle_t * HPTCAN4551::subscribe(HPTCAN4551_frame_type_t frame
     handle->priority = priority;
     handle->active = true;
     handle->counter = 0;
-    handle->last_matched_timestamp = 0xFFFFFFFF;
-    handle->cycle_time_ms = 0xFFFFFFFF;
+    handle->last_matched_timestamp = HPTCAN4551_MILLIS_UNSET;
+    handle->cycle_time_ms = HPTCAN4551_MILLIS_UNSET;
 
     // Deal with extended ID filters
     if(frame_type == HPTCAN4551_FRAME_EXTENDED) {
@@ -1383,7 +1383,7 @@ uint8_t HPTCAN4551::readAllAvailableMessages(HPTCAN4551_rx_fifo_t fifo, bool *hp
             // If user provided time callback, update timestamps
             if(timeMsCallback != nullptr) {
                 standard_filter_handles[message.filter_index].last_matched_timestamp = timeMsCallback();
-                standard_filter_handles[message.filter_index].cycle_time_ms = standard_filter_handles[message.filter_index].cycle_time_ms == 0xFFFFFFFF
+                standard_filter_handles[message.filter_index].cycle_time_ms = standard_filter_handles[message.filter_index].cycle_time_ms == HPTCAN4551_MILLIS_UNSET
                     ? 0 : (standard_filter_handles[message.filter_index].last_matched_timestamp - standard_filter_handles[message.filter_index].last_matched_timestamp);
             }
         } else {
@@ -1393,7 +1393,7 @@ uint8_t HPTCAN4551::readAllAvailableMessages(HPTCAN4551_rx_fifo_t fifo, bool *hp
             // If user provided time callback, update timestamps
             if(timeMsCallback != nullptr) {
                 extended_filter_handles[message.filter_index].last_matched_timestamp = timeMsCallback();
-                extended_filter_handles[message.filter_index].cycle_time_ms = extended_filter_handles[message.filter_index].cycle_time_ms == 0xFFFFFFFF
+                extended_filter_handles[message.filter_index].cycle_time_ms = extended_filter_handles[message.filter_index].cycle_time_ms == HPTCAN4551_MILLIS_UNSET
                     ? 0 : (extended_filter_handles[message.filter_index].last_matched_timestamp - extended_filter_handles[message.filter_index].last_matched_timestamp);
             }
         }
@@ -1430,7 +1430,7 @@ void HPTCAN4551::onFiltersChange(void (*callback)(HPTCAN4551_filters_status_t st
     filtersChangedCallback = callback;
 }
 
-void HPTCAN4551::onTimeMs(unsigned long (*callback)()) {
+void HPTCAN4551::onTimeMs(HPTCAN4551_millis_t (*callback)()) {
     timeMsCallback = callback;
 }
 

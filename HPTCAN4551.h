@@ -156,7 +156,7 @@ class HPTCAN4551 {
     public: void onFifoOverrun(void (*callback)(HPTCAN4551_rx_fifo_t fifo, HPTCAN4551 *obj));
     public: void messageReceived(void (*callback)(HPTCAN4551_IncomingMessage_t &message, HPTCAN4551_filter_handle_t *handle, HPTCAN4551 *obj));
     public: void onFiltersChange(void (*callback)(HPTCAN4551_filters_status_t status, HPTCAN4551_filter_handle_t *handle, bool enabled, HPTCAN4551 *obj));
-    public: void onTimeMs(unsigned long (*callback)());
+    public: void onTimeMs(HPTCAN4551_millis_t (*callback)());
     public: void onBusError(unsigned long (*callback)(HPTCAN4551_bus_status_t *bus_status, HPTCAN4551 *obj));
 
     /**
@@ -226,7 +226,7 @@ class HPTCAN4551 {
     HPTCAN4551_SECURE_PROPS: void (*fifoOverrunCallback)(HPTCAN4551_rx_fifo_t fifo, HPTCAN4551 *obj) = nullptr;
     HPTCAN4551_SECURE_PROPS: void (*filtersChangedCallback)(HPTCAN4551_filters_status_t status, HPTCAN4551_filter_handle_t *handle, bool enabled, HPTCAN4551 *obj) = nullptr;
 
-    HPTCAN4551_SECURE_PROPS: unsigned long (*timeMsCallback)() = nullptr;
+    HPTCAN4551_SECURE_PROPS: HPTCAN4551_millis_t (*timeMsCallback)() = nullptr;
     HPTCAN4551_SECURE_PROPS: unsigned long (*busErrorCallback)(HPTCAN4551_bus_status_t *bus_status, HPTCAN4551 *obj) = nullptr;
     
 };

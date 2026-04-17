@@ -4,6 +4,14 @@
 // Includes
 #include <stdint.h>
 
+// Define HPTCAN4551_USE_MILLIS64 before including this header to use 64-bit millis timestamps
+#ifdef HPTCAN4551_USE_MILLIS64
+typedef uint64_t HPTCAN4551_millis_t;
+#else
+typedef unsigned long HPTCAN4551_millis_t;
+#endif
+#define HPTCAN4551_MILLIS_UNSET ((HPTCAN4551_millis_t)(-1))
+
 /**
  * General
  */
@@ -153,8 +161,8 @@ typedef struct {
     uint32_t id2 = 0;
     bool priority = false;
     uint32_t counter = 0;
-    unsigned long last_matched_timestamp = 0;
-    uint32_t cycle_time_ms = 0xFFFFFFFF;
+    HPTCAN4551_millis_t last_matched_timestamp = 0;
+    HPTCAN4551_millis_t cycle_time_ms = HPTCAN4551_MILLIS_UNSET;
 } HPTCAN4551_filter_handle_t;
 
 typedef struct {
