@@ -1243,10 +1243,6 @@ bool HPTCAN4551::sendMessage(HPTCAN4551_OutgoingMessage_t message) {
         write(fifo_address + 8 + (i & ~3), data_word);
     }
     
-    // Print message ID, length and PRINT_HEX_BUFFER(message.data, message.length, Serial);
-    // Serial.print("Sent ID: 0x"); Serial.print(message.id, HEX); Serial.print(" ["); Serial.print(put_index); Serial.print("] ");
-    // PRINT_HEX_WORD_BUFFER(tx_element, num_words, Serial);
-
     // Request transmission by writing to TXBAR; this triggers the FIFO to advance and release the message
     write(HPTCAN4551_ADDR_FD_TXBAR, 1 << put_index);
 
